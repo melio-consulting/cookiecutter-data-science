@@ -32,7 +32,7 @@ $ conda install cookiecutter
 ## To start a new project
 ------------
 
-    cookiecutter https://github.com/melioconsulting/cookiecutter-data-science
+    cookiecutter https://github.com/melio-consulting/cookiecutter-data-science
 
 
 ## The resulting directory structure
