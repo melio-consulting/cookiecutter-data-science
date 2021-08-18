@@ -72,4 +72,56 @@ Project Organization
 
 --------
 
+## Recommendation on using the template
+
+The cookiecutter template includes a couple of tools to improve the development and deployment cycle. These are some of the recommendations.
+
+### Logging module
+
+The logging is configured through `logging.ini`.
+
+The logging configuration is set up per module as below, with a couple of things to watch out for:
+
+  1. Construc message lazily to improve logging performance.
+     - use logger.info('This is message: %s', message) rather than logger.info(f'This is {message}').
+  2. Capture traceback properly
+     - for handled exceptions: logger.error(e, exc_info=True)
+     - for unhadled: logger.error('uncaught exception: %s', traceback.format_exc())
+  3. Two log files are generated: app_debug.log and app_warning.log
+     - Use TimedRotatingFileHandler for debug to save space. Rotating every 7 days and back up 5 copies.
+     - Use FileHandler for warnings and above logs.
+  4. Use json formatter for log files. This is helpful to generate machine-readable logs.
+
+```
+# make_dataset.py
+import logging.config
+import traceback
+
+logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
+
+def word_count(myfile):
+    try:
+        # count the number of words in a file, myfile, and log the result
+        with open(myfile, 'r+') as f:
+            file_data = f.read()
+            logger.info('Line: %s', file_data)
+            return file_data
+    except OSError as e:
+        logger.error(e, exc_info=True)
+    except:
+        logger.error("uncaught exception: %s", traceback.format_exc())
+        return False
+
+if __name__ == '__main__':
+    word_count('myfile.txt')
+```
+### Model Cards
+
+##TODO: Chuene update here.
+
+### Testing Framework
+
+##TODO: Merelda update here.
+
 <p><small>Project based on the <a target="_blank" href="https://github.com/melio-consulting/cookiecutter-data-science">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
