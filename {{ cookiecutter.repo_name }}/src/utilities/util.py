@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import logging
+
+import json
+from src.utilities.logging import get_logger
 from datetime import datetime
 
-logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 def get_today_date():
     today = datetime.now().date()
     return today
+
+def pprint(d):
+    print(json.dumps(d, indent=4))
